@@ -9,10 +9,12 @@ interface EditBuildingModalProps {
     isOpen: boolean;
     onClose: () => void;
     onSubmit: (buildingId: string, buildingData: any) => Promise<void>;
+    onDelete?: (buildingId: string) => Promise<void>;
 }
 
-export default function EditBuildingModal({ building, isOpen, onClose, onSubmit }: EditBuildingModalProps) {
+export default function EditBuildingModal({ building, isOpen, onClose, onSubmit, onDelete }: EditBuildingModalProps) {
     const [loading, setLoading] = useState(false);
+    const [isImageUploading, setIsImageUploading] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
         address: '',
@@ -72,6 +74,21 @@ export default function EditBuildingModal({ building, isOpen, onClose, onSubmit 
             alert('Failed to update building. Please try again.');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleDelete = async () => {
+        if (!building || !onDelete) return;
+
+        if (confirm('Are you sure you want to delete this building? This action cannot be undone and will delete all associated units.')) {
+            try {
+                setLoading(true);
+                await onDelete(building.id);
+            } catch (error) {
+                console.error('Error deleting building:', error);
+                alert('Failed to delete building. Please try again.');
+                setLoading(false);
+            }
         }
     };
 
@@ -163,6 +180,7 @@ export default function EditBuildingModal({ building, isOpen, onClose, onSubmit 
                             <ImageUploader
                                 onUploadComplete={(url) => setFormData({ ...formData, imageUrl: url })}
                                 existingImageUrl={formData.imageUrl}
+                                onUploading={setIsImageUploading}
                             />
                         </div>
 
@@ -221,19 +239,30 @@ export default function EditBuildingModal({ building, isOpen, onClose, onSubmit 
 
                         {/* Buttons */}
                         <div className="flex gap-4 pt-4 border-t border-gray-200">
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200"
-                            >
-                                {loading ? 'Updating...' : 'Update Building'}
-                            </button>
+                            {onDelete && (
+                                <button
+                                    type="button"
+                                    onClick={handleDelete}
+                                    disabled={loading || isImageUploading}
+                                    className="bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200"
+                                >
+                                    Delete Building
+                                </button>
+                            )}
+                            <div className="flex-1"></div>
                             <button
                                 type="button"
                                 onClick={onClose}
-                                className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-3 px-6 rounded-lg transition-colors duration-200"
+                                className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-3 px-6 rounded-lg transition-colors duration-200"
                             >
                                 Cancel
+                            </button>
+                            <button
+                                type="submit"
+                                disabled={loading || isImageUploading}
+                                className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200"
+                            >
+                                {loading ? 'Updating...' : isImageUploading ? 'Uploading Image...' : 'Update Building'}
                             </button>
                         </div>
                     </form>

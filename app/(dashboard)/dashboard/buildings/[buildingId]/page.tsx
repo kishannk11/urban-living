@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import {
     doc,
     getDoc,
+    getDocs,
     collection,
     query,
     where,
@@ -144,6 +145,28 @@ export default function BuildingDetailsPage() {
             }
         } catch (error) {
             console.error('Error updating building:', error);
+            throw error;
+        }
+    };
+
+    // Delete building handler
+    const handleDeleteBuilding = async (buildingId: string) => {
+        try {
+            // Delete all units associated with this building
+            const unitsRef = collection(db, 'units');
+            const q = query(unitsRef, where('buildingId', '==', buildingId));
+            const snapshot = await getDocs(q); // Need getDocs import if not present, but getDocs is already imported
+
+            const deletePromises = snapshot.docs.map(doc => deleteDoc(doc.ref));
+            await Promise.all(deletePromises);
+
+            // Delete the building document
+            await deleteDoc(doc(db, 'buildings', buildingId));
+
+            // Redirect to updated list
+            router.push('/dashboard/my-buildings');
+        } catch (error) {
+            console.error('Error deleting building:', error);
             throw error;
         }
     };
@@ -320,6 +343,7 @@ export default function BuildingDetailsPage() {
                 isOpen={showEditBuildingModal}
                 onClose={() => setShowEditBuildingModal(false)}
                 onSubmit={handleUpdateBuilding}
+                onDelete={handleDeleteBuilding}
             />
         </div>
     );

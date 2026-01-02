@@ -177,6 +177,7 @@ export default function MultiImageUploader({
                             {/* Remove button */}
                             {!uploading && (
                                 <button
+                                    type="button"
                                     onClick={() => handleRemove(index)}
                                     className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white p-1.5 rounded-full shadow-lg transition-colors"
                                     title="Remove image"
@@ -204,6 +205,7 @@ export default function MultiImageUploader({
             {/* Upload Button */}
             {imageUrls.length < maxImages && (
                 <button
+                    type="button"
                     onClick={handleSelectClick}
                     disabled={uploading}
                     className={`w-full border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all ${uploading ? 'opacity-50 cursor-not-allowed' : ''

@@ -92,7 +92,7 @@ export default function EditUnitModal({ unit, isOpen, onClose, onSubmit }: EditU
 
             {/* Modal */}
             <div className="relative min-h-screen flex items-center justify-center p-4">
-                <div className="relative bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                <div className="relative bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
                     {/* Header */}
                     <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
                         <h2 className="text-2xl font-bold text-gray-900">Edit Unit</h2>

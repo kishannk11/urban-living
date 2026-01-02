@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, ChangeEvent } from 'react';
+import { useState, useRef, ChangeEvent, useEffect } from 'react';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage, auth } from '@/lib/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -9,11 +9,13 @@ import imageCompression from 'browser-image-compression';
 interface ImageUploaderProps {
     onUploadComplete: (url: string) => void;
     existingImageUrl?: string;
+    onUploading?: (uploading: boolean) => void;
 }
 
 export default function ImageUploader({
     onUploadComplete,
-    existingImageUrl
+    existingImageUrl,
+    onUploading
 }: ImageUploaderProps) {
     const [user] = useAuthState(auth);
     const [uploading, setUploading] = useState(false);
@@ -21,6 +23,22 @@ export default function ImageUploader({
     const [imageUrl, setImageUrl] = useState<string | null>(existingImageUrl || null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(existingImageUrl || null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    // Sync state with prop if it changes
+    useEffect(() => {
+        setImageUrl(existingImageUrl || null);
+        setPreviewUrl(existingImageUrl || null);
+    }, [existingImageUrl]);
+
+    const handleUploadStart = () => {
+        setUploading(true);
+        if (onUploading) onUploading(true);
+    };
+
+    const handleUploadEnd = () => {
+        setUploading(false);
+        if (onUploading) onUploading(false);
+    };
 
     const generateRandomId = () => {
         return `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
@@ -64,7 +82,7 @@ export default function ImageUploader({
         }
 
         try {
-            setUploading(true);
+            handleUploadStart();
             setProgress(0);
 
             // Create preview
@@ -94,7 +112,7 @@ export default function ImageUploader({
                     // Handle errors
                     console.error('Upload error:', error);
                     alert('Failed to upload image. Please try again.');
-                    setUploading(false);
+                    handleUploadEnd();
                     setProgress(0);
                     setPreviewUrl(imageUrl); // Revert to previous image
                 },
@@ -106,7 +124,7 @@ export default function ImageUploader({
 
                         setImageUrl(downloadURL);
                         setPreviewUrl(downloadURL);
-                        setUploading(false);
+                        handleUploadEnd();
                         setProgress(100);
 
                         // Pass URL back to parent component
@@ -119,14 +137,14 @@ export default function ImageUploader({
                     } catch (error) {
                         console.error('Error getting download URL:', error);
                         alert('Upload completed but failed to get image URL');
-                        setUploading(false);
+                        handleUploadEnd();
                     }
                 }
             );
         } catch (error) {
             console.error('Error processing image:', error);
             alert('Failed to process image. Please try again.');
-            setUploading(false);
+            handleUploadEnd();
             setProgress(0);
         }
     };
@@ -259,5 +277,6 @@ export default function ImageUploader({
                 Images are automatically compressed to WebP format for optimal performance
             </p>
         </div>
+
     );
 }
