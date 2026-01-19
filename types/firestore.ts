@@ -32,6 +32,7 @@ export interface Building {
   ownerName?: string; // Owner's display name
   ownerPhone?: string; // Owner's contact phone
   ownerWhatsApp?: string; // Owner's WhatsApp number
+  scanViews?: number; // Total number of QR code scans/page views
   createdAt: Date;
   updatedAt: Date;
 }

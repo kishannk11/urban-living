@@ -8,6 +8,7 @@ import { auth } from '@/lib/firebase';
 import { signOut } from 'firebase/auth';
 
 const navigation = [
+    { name: 'Dashboard', href: '/dashboard', icon: '📊' },
     { name: 'My Buildings', href: '/dashboard/my-buildings', icon: '🏢' },
     { name: 'Add Property', href: '/dashboard/add-property', icon: '➕' },
     { name: 'Account', href: '/dashboard/account', icon: '⚙️' },
@@ -98,8 +99,8 @@ export default function Sidebar() {
                                     href={item.href}
                                     onClick={() => setIsMobileMenuOpen(false)}
                                     className={`${isActive
-                                            ? 'bg-gray-800 text-white'
-                                            : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                                        ? 'bg-gray-800 text-white'
+                                        : 'text-gray-300 hover:bg-gray-800 hover:text-white'
                                         } flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200`}
                                 >
                                     <span className="text-xl mr-3">{item.icon}</span>
