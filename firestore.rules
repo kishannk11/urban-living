@@ -22,16 +22,16 @@ service cloud.firestore {
       allow delete: if false;
     }
     
-    // Buildings collection
-    match /buildings/{buildingId} {
-      // Anyone can read buildings (for public pages)
+    // Listing Groups collection
+    match /listing-groups/{buildingId} {
+      // Anyone can read listing-groups (for public pages)
       allow read: if true;
       
-      // Only authenticated building owners can create their own buildings
+      // Only authenticated listing-group owners can create their own listing-groups
       allow create: if isAuthenticated() && 
                        request.resource.data.ownerId == request.auth.uid;
       
-      // Building owners can update their own buildings
+      // Listing-group owners can update their own listing-groups
       // OR anyone can increment the scanViews field only
       allow update: if isOwner(resource.data.ownerId) || 
                        (// Allow scanViews increment from anyone
@@ -40,30 +40,30 @@ service cloud.firestore {
                         request.resource.data.scanViews == resource.data.scanViews + 1
                        );
       
-      // Only building owners can delete their buildings
+      // Only listing-group owners can delete their listing-groups
       allow delete: if isOwner(resource.data.ownerId);
     }
     
-    // Units collection
-    match /units/{unitId} {
-      // Anyone can read units (for public pages)
+    // Listings collection
+    match /listings/{unitId} {
+      // Anyone can read listings (for public pages)
       allow read: if true;
       
-      // Only authenticated building owners can create units
-      // We verify ownership by checking the building's ownerId
+      // Only authenticated listing-group owners can create listings
+      // We verify ownership by checking the listing-group's ownerId
       allow create: if isAuthenticated() && 
-                       exists(/databases/$(database)/documents/buildings/$(request.resource.data.buildingId)) &&
-                       get(/databases/$(database)/documents/buildings/$(request.resource.data.buildingId)).data.ownerId == request.auth.uid;
+                       exists(/databases/$(database)/documents/listing-groups/$(request.resource.data.buildingId)) &&
+                       get(/databases/$(database)/documents/listing-groups/$(request.resource.data.buildingId)).data.ownerId == request.auth.uid;
       
-      // Only building owners can update units
+      // Only listing-group owners can update listings
       allow update: if isAuthenticated() && 
-                       exists(/databases/$(database)/documents/buildings/$(resource.data.buildingId)) &&
-                       get(/databases/$(database)/documents/buildings/$(resource.data.buildingId)).data.ownerId == request.auth.uid;
+                       exists(/databases/$(database)/documents/listing-groups/$(resource.data.buildingId)) &&
+                       get(/databases/$(database)/documents/listing-groups/$(resource.data.buildingId)).data.ownerId == request.auth.uid;
       
-      // Only building owners can delete units
+      // Only listing-group owners can delete listings
       allow delete: if isAuthenticated() && 
-                       exists(/databases/$(database)/documents/buildings/$(resource.data.buildingId)) &&
-                       get(/databases/$(database)/documents/buildings/$(resource.data.buildingId)).data.ownerId == request.auth.uid;
+                       exists(/databases/$(database)/documents/listing-groups/$(resource.data.buildingId)) &&
+                       get(/databases/$(database)/documents/listing-groups/$(resource.data.buildingId)).data.ownerId == request.auth.uid;
     }
     
     // Default deny all other collections

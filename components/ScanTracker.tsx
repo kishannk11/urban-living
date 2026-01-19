@@ -21,7 +21,7 @@ export default function ScanTracker({ buildingId }: ScanTrackerProps) {
     useEffect(() => {
         const trackScan = async () => {
             try {
-                const buildingRef = doc(db, 'buildings', buildingId);
+                const buildingRef = doc(db, 'listing-groups', buildingId);
 
                 // Atomically increment scanViews by 1
                 // If the field doesn't exist, it will be created and set to 1

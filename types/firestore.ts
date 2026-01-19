@@ -35,6 +35,7 @@ export interface Building {
   scanViews?: number; // Total number of QR code scans/page views
   createdAt: Date;
   updatedAt: Date;
+  updatedBy?: string; // User ID of last person who updated this listing-group
 }
 
 /**

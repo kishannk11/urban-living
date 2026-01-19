@@ -48,7 +48,7 @@ export default function AddPropertyPage() {
                 .map((a) => a.trim())
                 .filter((a) => a.length > 0);
 
-            await addDoc(collection(db, 'buildings'), {
+            await addDoc(collection(db, 'listing-groups'), {
                 name: formData.name,
                 address: formData.address,
                 slug: formData.slug,
@@ -58,6 +58,7 @@ export default function AddPropertyPage() {
                 ownerId: user.uid,
                 createdAt: serverTimestamp(),
                 updatedAt: serverTimestamp(),
+                updatedBy: user.uid, // Track who created it
             });
 
             alert('Building added successfully!');

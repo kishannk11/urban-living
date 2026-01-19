@@ -42,7 +42,7 @@ export default function StatsOverview() {
                 setError(null);
 
                 // Fetch all buildings owned by the current user
-                const buildingsRef = collection(db, 'buildings');
+                const buildingsRef = collection(db, 'listing-groups');
                 const buildingsQuery = query(
                     buildingsRef,
                     where('ownerId', '==', user?.uid)
@@ -71,7 +71,7 @@ export default function StatsOverview() {
                     const batchSize = 10;
                     for (let i = 0; i < buildingIds.length; i += batchSize) {
                         const batch = buildingIds.slice(i, i + batchSize);
-                        const unitsRef = collection(db, 'units');
+                        const unitsRef = collection(db, 'listings');
                         const unitsQuery = query(
                             unitsRef,
                             where('buildingId', 'in', batch),

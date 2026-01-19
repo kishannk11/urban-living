@@ -18,7 +18,7 @@ export default function MyBuildingsPage() {
         const fetchBuildings = async () => {
             try {
                 setLoading(true);
-                const buildingsRef = collection(db, 'buildings');
+                const buildingsRef = collection(db, 'listing-groups');
                 const q = query(buildingsRef, where('ownerId', '==', user.uid));
                 const snapshot = await getDocs(q);
 

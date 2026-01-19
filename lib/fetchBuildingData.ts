@@ -32,7 +32,7 @@ export async function fetchBuildingData(slug: string): Promise<{
 }> {
     try {
         // Fetch building by slug
-        const buildingsRef = collection(db, 'buildings');
+        const buildingsRef = collection(db, 'listing-groups');
         const buildingQuery = query(buildingsRef, where('slug', '==', slug));
         const buildingSnapshot = await getDocs(buildingQuery);
 
@@ -53,7 +53,7 @@ export async function fetchBuildingData(slug: string): Promise<{
         const building = convertTimestamps(buildingData) as Building;
 
         // Fetch units for this building
-        const unitsRef = collection(db, 'units');
+        const unitsRef = collection(db, 'listings');
         const unitsQuery = query(unitsRef, where('buildingId', '==', buildingDoc.id));
         const unitsSnapshot = await getDocs(unitsQuery);
 

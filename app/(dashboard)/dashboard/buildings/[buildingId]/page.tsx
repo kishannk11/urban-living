@@ -44,7 +44,7 @@ export default function BuildingDetailsPage() {
 
         const fetchBuilding = async () => {
             try {
-                const buildingRef = doc(db, 'buildings', buildingId);
+                const buildingRef = doc(db, 'listing-groups', buildingId);
                 const buildingSnap = await getDoc(buildingRef);
 
                 if (buildingSnap.exists()) {
@@ -71,7 +71,7 @@ export default function BuildingDetailsPage() {
     useEffect(() => {
         if (!buildingId) return;
 
-        const unitsRef = collection(db, 'units');
+        const unitsRef = collection(db, 'listings');
         const q = query(unitsRef, where('buildingId', '==', buildingId));
 
         const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -91,7 +91,7 @@ export default function BuildingDetailsPage() {
     // Add unit handler
     const handleAddUnit = async (unitData: any) => {
         try {
-            await addDoc(collection(db, 'units'), {
+            await addDoc(collection(db, 'listings'), {
                 ...unitData,
                 createdAt: serverTimestamp(),
                 updatedAt: serverTimestamp(),
@@ -105,7 +105,7 @@ export default function BuildingDetailsPage() {
     // Update unit handler  
     const handleUpdateUnit = async (unitId: string, unitData: any) => {
         try {
-            const unitRef = doc(db, 'units', unitId);
+            const unitRef = doc(db, 'listings', unitId);
             await updateDoc(unitRef, {
                 ...unitData,
                 updatedAt: serverTimestamp(),
@@ -119,7 +119,7 @@ export default function BuildingDetailsPage() {
     // Delete unit handler
     const handleDeleteUnit = async (unitId: string) => {
         try {
-            await deleteDoc(doc(db, 'units', unitId));
+            await deleteDoc(doc(db, 'listings', unitId));
         } catch (error) {
             console.error('Error deleting unit:', error);
             alert('Failed to delete unit');
@@ -129,10 +129,11 @@ export default function BuildingDetailsPage() {
     // Update building handler
     const handleUpdateBuilding = async (buildingId: string, buildingData: any) => {
         try {
-            const buildingRef = doc(db, 'buildings', buildingId);
+            const buildingRef = doc(db, 'listing-groups', buildingId);
             await updateDoc(buildingRef, {
                 ...buildingData,
                 updatedAt: serverTimestamp(),
+                updatedBy: user?.uid, // Track who updated it
             });
 
             // Refresh building data
@@ -153,7 +154,7 @@ export default function BuildingDetailsPage() {
     const handleDeleteBuilding = async (buildingId: string) => {
         try {
             // Delete all units associated with this building
-            const unitsRef = collection(db, 'units');
+            const unitsRef = collection(db, 'listings');
             const q = query(unitsRef, where('buildingId', '==', buildingId));
             const snapshot = await getDocs(q); // Need getDocs import if not present, but getDocs is already imported
 
@@ -161,7 +162,7 @@ export default function BuildingDetailsPage() {
             await Promise.all(deletePromises);
 
             // Delete the building document
-            await deleteDoc(doc(db, 'buildings', buildingId));
+            await deleteDoc(doc(db, 'listing-groups', buildingId));
 
             // Redirect to updated list
             router.push('/dashboard/my-buildings');
