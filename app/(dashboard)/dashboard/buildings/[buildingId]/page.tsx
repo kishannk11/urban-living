@@ -93,6 +93,7 @@ export default function BuildingDetailsPage() {
         try {
             await addDoc(collection(db, 'listings'), {
                 ...unitData,
+                ownerId: user?.uid, // Assign current user as owner
                 createdAt: serverTimestamp(),
                 updatedAt: serverTimestamp(),
             });
@@ -245,16 +246,20 @@ export default function BuildingDetailsPage() {
                             </div>
                         )}
 
+
                         <div className="flex flex-wrap gap-3">
-                            <button
-                                onClick={() => setShowEditBuildingModal(true)}
-                                className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-lg transition-colors duration-200 inline-flex items-center"
-                            >
-                                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                </svg>
-                                Edit Building
-                            </button>
+                            {/* Only show Edit Building button if user created the building */}
+                            {user && building.ownerId === user.uid && (
+                                <button
+                                    onClick={() => setShowEditBuildingModal(true)}
+                                    className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-lg transition-colors duration-200 inline-flex items-center"
+                                >
+                                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                    Edit Building
+                                </button>
+                            )}
                             <QRCodeDownloader
                                 url={`${typeof window !== 'undefined' ? window.location.origin : ''}/p/${building.slug}`}
                                 buildingName={building.name}
@@ -294,14 +299,23 @@ export default function BuildingDetailsPage() {
                 {/* Units Grid */}
                 {units.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {units.map((unit) => (
-                            <UnitCard
-                                key={unit.id}
-                                unit={unit}
-                                onEdit={setEditingUnit}
-                                onDelete={handleDeleteUnit}
-                            />
-                        ))}
+                        {units.map((unit) => {
+                            // Check if current user is the owner of this unit
+                            // If unit has no ownerId (legacy), default to building owner match or false?
+                            // Safest: strict check. If legacy units exist, they might need migration.
+                            // For now: unit.ownerId === user?.uid
+                            const isOwner = user && unit.ownerId === user.uid;
+
+                            return (
+                                <UnitCard
+                                    key={unit.id}
+                                    unit={unit}
+                                    isOwner={!!isOwner}
+                                    onEdit={setEditingUnit}
+                                    onDelete={handleDeleteUnit}
+                                />
+                            );
+                        })}
                     </div>
                 ) : (
                     /* Empty State */

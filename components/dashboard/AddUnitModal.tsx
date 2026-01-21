@@ -3,6 +3,8 @@
 import { useState, FormEvent } from 'react';
 import { UnitType, UnitStatus } from '@/types/firestore';
 import MultiImageUploader from '@/components/MultiImageUploader';
+import { auth } from '@/lib/firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 interface AddUnitModalProps {
     buildingId: string;
@@ -14,6 +16,7 @@ interface AddUnitModalProps {
 const unitTypes: UnitType[] = ['1RK', '1BHK', '2BHK', '3BHK', '4BHK', 'PG-Bed', 'Studio'];
 
 export default function AddUnitModal({ buildingId, isOpen, onClose, onSubmit }: AddUnitModalProps) {
+    const [user] = useAuthState(auth);
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         unitNumber: '',
@@ -26,7 +29,19 @@ export default function AddUnitModal({ buildingId, isOpen, onClose, onSubmit }: 
         description: '',
         amenities: '',
         images: [] as string[],
+        contactName: '',
+        contactPhone: '',
     });
+
+    const handleAutoFill = () => {
+        if (user) {
+            setFormData({
+                ...formData,
+                contactName: user.displayName || '',
+                contactPhone: user.phoneNumber || '',
+            });
+        }
+    };
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -44,6 +59,10 @@ export default function AddUnitModal({ buildingId, isOpen, onClose, onSubmit }: 
                 type: formData.type,
                 rent: Number(formData.rent),
                 status: formData.status,
+                contact: {
+                    name: formData.contactName,
+                    phone: formData.contactPhone,
+                },
             };
 
             // Only add optional fields if they have values
@@ -68,6 +87,8 @@ export default function AddUnitModal({ buildingId, isOpen, onClose, onSubmit }: 
                 description: '',
                 amenities: '',
                 images: [],
+                contactName: '',
+                contactPhone: '',
             });
 
             onClose();
@@ -215,6 +236,55 @@ export default function AddUnitModal({ buildingId, isOpen, onClose, onSubmit }: 
                                 <option value={UnitStatus.OCCUPIED}>Occupied</option>
                                 <option value={UnitStatus.MAINTENANCE}>Maintenance</option>
                             </select>
+                        </div>
+
+                        {/* Tenant Contact Details */}
+                        <div className="border-t border-gray-200 pt-6">
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="text-lg font-semibold text-gray-900">Tenant Contact Details</h3>
+                                <button
+                                    type="button"
+                                    onClick={handleAutoFill}
+                                    className="text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    Use my account details
+                                </button>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {/* Contact Name */}
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Contact Name *
+                                    </label>
+                                    <input
+                                        type="text"
+                                        required
+                                        value={formData.contactName}
+                                        onChange={(e) => setFormData({ ...formData, contactName: e.target.value })}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                                        placeholder="John Doe"
+                                    />
+                                </div>
+
+                                {/* Contact Phone */}
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Contact Phone *
+                                    </label>
+                                    <input
+                                        type="tel"
+                                        required
+                                        value={formData.contactPhone}
+                                        onChange={(e) => setFormData({ ...formData, contactPhone: e.target.value })}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                                        placeholder="+91 98765 43210"
+                                    />
+                                </div>
+                            </div>
                         </div>
 
                         {/* Description */}

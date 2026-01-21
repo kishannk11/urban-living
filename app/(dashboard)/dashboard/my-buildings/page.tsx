@@ -18,14 +18,39 @@ export default function MyBuildingsPage() {
         const fetchBuildings = async () => {
             try {
                 setLoading(true);
-                const buildingsRef = collection(db, 'listing-groups');
-                const q = query(buildingsRef, where('ownerId', '==', user.uid));
-                const snapshot = await getDocs(q);
 
-                const buildingsData = snapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    ...doc.data(),
-                })) as Building[];
+                // Step 1: Query building_members to get buildingIds where user is a member
+                const membersRef = collection(db, 'building_members');
+                const memberQuery = query(membersRef, where('userId', '==', user.uid));
+                const memberSnapshot = await getDocs(memberQuery);
+
+                // Extract unique buildingIds
+                const buildingIds = memberSnapshot.docs.map(doc => doc.data().buildingId);
+
+                if (buildingIds.length === 0) {
+                    setBuildings([]);
+                    setLoading(false);
+                    return;
+                }
+
+                // Step 2: Fetch building details for all buildingIds
+                // Note: Firestore 'in' queries support max 10 items, so we need to batch if more
+                const buildingsRef = collection(db, 'listing-groups');
+                const buildingsData: Building[] = [];
+
+                // Process in batches of 10
+                for (let i = 0; i < buildingIds.length; i += 10) {
+                    const batch = buildingIds.slice(i, i + 10);
+                    const batchQuery = query(buildingsRef, where('__name__', 'in', batch));
+                    const batchSnapshot = await getDocs(batchQuery);
+
+                    batchSnapshot.docs.forEach((doc) => {
+                        buildingsData.push({
+                            id: doc.id,
+                            ...doc.data(),
+                        } as Building);
+                    });
+                }
 
                 setBuildings(buildingsData);
                 setLoading(false);

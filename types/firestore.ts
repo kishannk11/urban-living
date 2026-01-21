@@ -39,6 +39,17 @@ export interface Building {
 }
 
 /**
+ * Building Member Document Interface
+ * Collection: building_members
+ */
+export interface BuildingMember {
+  id: string;
+  userId: string; // Reference to users collection
+  buildingId: string; // Reference to buildings collection
+  joinedAt: Date;
+}
+
+/**
  * Unit Type Options
  */
 export type UnitType = '1RK' | '1BHK' | '2BHK' | '3BHK' | '4BHK' | 'PG-Bed' | 'Studio';
@@ -59,6 +70,11 @@ export enum UnitStatus {
 export interface Unit {
   id: string;
   buildingId: string; // Reference to buildings collection
+  ownerId: string; // User ID of the unit owner
+  contact: {
+    name: string;
+    phone: string;
+  }; // Contact details for this unit
   type: UnitType; // e.g., "1BHK", "2BHK", "Studio"
   rent: number;
   deposit?: number; // Security deposit amount

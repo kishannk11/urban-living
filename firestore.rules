@@ -44,26 +44,38 @@ service cloud.firestore {
       allow delete: if isOwner(resource.data.ownerId);
     }
     
+    // Building Members collection
+    match /building_members/{memberId} {
+      // Users can read their own memberships
+      allow read: if isAuthenticated() && 
+                     resource.data.userId == request.auth.uid;
+      
+      // Users can create memberships for themselves
+      allow create: if isAuthenticated() && 
+                       request.resource.data.userId == request.auth.uid;
+      
+      // No updates or deletes allowed (prevent manipulation)
+      allow update, delete: if false;
+    }
+    
+    // Listings collection
     // Listings collection
     match /listings/{unitId} {
       // Anyone can read listings (for public pages)
       allow read: if true;
       
-      // Only authenticated listing-group owners can create listings
-      // We verify ownership by checking the listing-group's ownerId
+      // Crowdsourcing Model:
+      // 1. Any authenticated user can create a listing, provided they set themselves as owner
       allow create: if isAuthenticated() && 
-                       exists(/databases/$(database)/documents/listing-groups/$(request.resource.data.buildingId)) &&
-                       get(/databases/$(database)/documents/listing-groups/$(request.resource.data.buildingId)).data.ownerId == request.auth.uid;
+                       request.resource.data.ownerId == request.auth.uid;
       
-      // Only listing-group owners can update listings
+      // 2. Only the UNIT owner can update their listing
       allow update: if isAuthenticated() && 
-                       exists(/databases/$(database)/documents/listing-groups/$(resource.data.buildingId)) &&
-                       get(/databases/$(database)/documents/listing-groups/$(resource.data.buildingId)).data.ownerId == request.auth.uid;
+                       resource.data.ownerId == request.auth.uid;
       
-      // Only listing-group owners can delete listings
+      // 3. Only the UNIT owner can delete their listing
       allow delete: if isAuthenticated() && 
-                       exists(/databases/$(database)/documents/listing-groups/$(resource.data.buildingId)) &&
-                       get(/databases/$(database)/documents/listing-groups/$(resource.data.buildingId)).data.ownerId == request.auth.uid;
+                       resource.data.ownerId == request.auth.uid;
     }
     
     // Default deny all other collections

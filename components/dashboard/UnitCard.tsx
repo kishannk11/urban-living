@@ -2,11 +2,12 @@ import { Unit, UnitStatus } from '@/types/firestore';
 
 interface UnitCardProps {
     unit: Unit;
+    isOwner: boolean;
     onEdit: (unit: Unit) => void;
     onDelete: (unitId: string) => void;
 }
 
-export default function UnitCard({ unit, onEdit, onDelete }: UnitCardProps) {
+export default function UnitCard({ unit, isOwner, onEdit, onDelete }: UnitCardProps) {
     const getStatusColor = (status: UnitStatus) => {
         switch (status) {
             case UnitStatus.AVAILABLE:
@@ -133,21 +134,23 @@ export default function UnitCard({ unit, onEdit, onDelete }: UnitCardProps) {
                     </div>
                 )}
 
-                {/* Action Buttons */}
-                <div className="flex gap-2 pt-4 border-t border-gray-200">
-                    <button
-                        onClick={() => onEdit(unit)}
-                        className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
-                    >
-                        Edit
-                    </button>
-                    <button
-                        onClick={handleDelete}
-                        className="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
-                    >
-                        Delete
-                    </button>
-                </div>
+                {/* Action Buttons - Only visible to owner */}
+                {isOwner && (
+                    <div className="flex gap-2 pt-4 border-t border-gray-200">
+                        <button
+                            onClick={() => onEdit(unit)}
+                            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
+                        >
+                            Edit
+                        </button>
+                        <button
+                            onClick={handleDelete}
+                            className="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
+                        >
+                            Delete
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );
