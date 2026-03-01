@@ -151,11 +151,16 @@ export default function EditBuildingModal({ building, isOpen, onClose, onSubmit,
                                 Description
                             </label>
                             <textarea
-                                rows={3}
+                                rows={6}
+                                maxLength={5000}
                                 value={formData.description}
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                                placeholder="Describe the building, highlights, furnishings, amenities..."
                             />
+                            <p className={`text-xs mt-1 text-right ${formData.description.length >= 4800 ? 'text-red-500 font-medium' : 'text-gray-400'}`}>
+                                {formData.description.length} / 5000
+                            </p>
                         </div>
 
                         {/* Amenities */}
@@ -260,7 +265,7 @@ export default function EditBuildingModal({ building, isOpen, onClose, onSubmit,
                             <button
                                 type="submit"
                                 disabled={loading || isImageUploading}
-                                className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200"
+                                className="bg-brand-red hover:bg-brand-red-hover disabled:bg-red-400 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200"
                             >
                                 {loading ? 'Updating...' : isImageUploading ? 'Uploading Image...' : 'Update Building'}
                             </button>

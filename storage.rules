@@ -1,0 +1,20 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // uploads/{userId}/... — used by ImageUploader.tsx (building cover photos, etc.)
+    // Rule: only the owner (userId == auth.uid) can write; anyone can read
+    match /uploads/{userId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // uploads/{buildingId}/units/... — used by MultiImageUploader in AddUnitModal / EditUnitModal
+    // buildingId is NOT the user's UID, so we allow any authenticated user to upload here.
+    // Reads are public so unit photos show on public listing pages.
+    match /uploads/{buildingId}/units/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+  }
+}

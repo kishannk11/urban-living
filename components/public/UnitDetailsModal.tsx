@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Unit, UnitStatus, Building } from '@/types/firestore';
+import DescriptionRenderer from '@/components/DescriptionRenderer';
 
 interface UnitDetailsModalProps {
     unit: Unit | null;
@@ -194,7 +195,7 @@ export default function UnitDetailsModal({ unit, building, isOpen, onClose }: Un
                         {unit.description && (
                             <div className="mb-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Description</h3>
-                                <p className="text-gray-700 leading-relaxed">{unit.description}</p>
+                                <DescriptionRenderer text={unit.description} />
                             </div>
                         )}
 

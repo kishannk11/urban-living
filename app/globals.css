@@ -10,6 +10,12 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  /* Brand Colors - Real Estate Red Theme */
+  --color-brand-red: #E11D48;
+  --color-brand-red-hover: #BE123C;
+  --color-brand-dark: #0F172A;
+  --color-brand-light: #F8FAFC;
 }
 
 @media (prefers-color-scheme: dark) {

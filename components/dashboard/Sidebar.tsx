@@ -75,7 +75,7 @@ export default function Sidebar() {
                     {/* User Info */}
                     <div className="px-4 py-4 border-b border-gray-800">
                         <div className="flex items-center">
-                            <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold">
+                            <div className="w-10 h-10 rounded-full bg-brand-red flex items-center justify-center text-white font-semibold">
                                 {user?.email?.[0].toUpperCase() || 'U'}
                             </div>
                             <div className="ml-3 overflow-hidden">

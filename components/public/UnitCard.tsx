@@ -164,7 +164,7 @@ export default function UnitCard({ unit, onClick }: UnitCardProps) {
                             e.stopPropagation();
                             onClick();
                         }}
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
+                        className="bg-brand-red hover:bg-brand-red-hover text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
                     >
                         View Details
                     </button>

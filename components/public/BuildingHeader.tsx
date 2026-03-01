@@ -1,4 +1,5 @@
 import { Building } from '@/types/firestore';
+import DescriptionRenderer from '@/components/DescriptionRenderer';
 
 interface BuildingHeaderProps {
     building: Building;
@@ -56,9 +57,9 @@ export default function BuildingHeader({ building }: BuildingHeaderProps) {
                 </div>
 
                 {building.description && (
-                    <p className="text-gray-700 text-sm sm:text-base leading-relaxed mb-4">
-                        {building.description}
-                    </p>
+                    <div className="mb-4">
+                        <DescriptionRenderer text={building.description} />
+                    </div>
                 )}
 
                 {building.amenities && building.amenities.length > 0 && (
@@ -70,7 +71,7 @@ export default function BuildingHeader({ building }: BuildingHeaderProps) {
                             {building.amenities.map((amenity, index) => (
                                 <span
                                     key={index}
-                                    className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs sm:text-sm"
+                                    className="px-3 py-1 bg-red-50 text-brand-red rounded-full text-xs sm:text-sm"
                                 >
                                     {amenity}
                                 </span>

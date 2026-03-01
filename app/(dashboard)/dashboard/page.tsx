@@ -25,7 +25,7 @@ export default function DashboardPage() {
                         href="/dashboard/add-property"
                         className="flex items-center p-4 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors duration-200"
                     >
-                        <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white text-xl mr-4">
+                        <div className="w-10 h-10 bg-brand-red rounded-lg flex items-center justify-center text-white text-xl mr-4">
                             ➕
                         </div>
                         <div>

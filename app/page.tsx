@@ -2,19 +2,19 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-slate-50">
       {/* Navigation */}
-      <nav className="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+      <nav className="bg-brand-dark shadow-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold text-white">
                 Urban Living
               </h1>
             </div>
             <Link
               href="/dashboard"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2.5 rounded-lg transition-colors duration-200"
+              className="bg-brand-red hover:bg-brand-red-hover text-white font-medium px-6 py-2.5 rounded-lg transition-colors duration-200"
             >
               Property Owner Login
             </Link>
@@ -26,10 +26,10 @@ export default function Home() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <div className="text-center">
           {/* Main Heading */}
-          <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 mb-6">
+          <h1 className="text-4xl sm:text-6xl font-bold text-brand-dark mb-6">
             Modern Property Management
             <br />
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-brand-red to-rose-600 bg-clip-text text-transparent">
               Made Simple
             </span>
           </h1>
@@ -44,7 +44,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
             <Link
               href="/dashboard"
-              className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+              className="w-full sm:w-auto bg-brand-red hover:bg-brand-red-hover text-white font-semibold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
             >
               Get Started as Property Owner
             </Link>
@@ -59,18 +59,18 @@ export default function Home() {
           {/* Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto mb-20">
             <div className="bg-white rounded-xl p-6 shadow-md">
-              <div className="text-4xl font-bold text-blue-600 mb-2">🏢</div>
-              <div className="text-3xl font-bold text-gray-900 mb-1">Easy</div>
+              <div className="text-4xl font-bold text-brand-red mb-2">🏢</div>
+              <div className="text-3xl font-bold text-brand-dark mb-1">Easy</div>
               <div className="text-gray-600">Property Management</div>
             </div>
             <div className="bg-white rounded-xl p-6 shadow-md">
-              <div className="text-4xl font-bold text-purple-600 mb-2">📱</div>
-              <div className="text-3xl font-bold text-gray-900 mb-1">QR</div>
+              <div className="text-4xl font-bold text-brand-red mb-2">📱</div>
+              <div className="text-3xl font-bold text-brand-dark mb-1">QR</div>
               <div className="text-gray-600">Code Integration</div>
             </div>
             <div className="bg-white rounded-xl p-6 shadow-md">
-              <div className="text-4xl font-bold text-green-600 mb-2">⚡</div>
-              <div className="text-3xl font-bold text-gray-900 mb-1">Instant</div>
+              <div className="text-4xl font-bold text-brand-red mb-2">⚡</div>
+              <div className="text-3xl font-bold text-brand-dark mb-1">Instant</div>
               <div className="text-gray-600">Property Viewing</div>
             </div>
           </div>
@@ -78,16 +78,16 @@ export default function Home() {
 
         {/* Features Section */}
         <div id="features" className="py-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-900 mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center text-brand-dark mb-12">
             Platform Features
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* For Property Owners */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-200">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center mb-4">
                 <svg
-                  className="w-6 h-6 text-blue-600"
+                  className="w-6 h-6 text-brand-red"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -100,7 +100,7 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="text-2xl font-semibold text-gray-900 mb-3">
+              <h3 className="text-2xl font-semibold text-brand-dark mb-3">
                 For Property Owners
               </h3>
               <ul className="space-y-3 text-gray-600">
@@ -125,9 +125,9 @@ export default function Home() {
 
             {/* For Tenants */}
             <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-200">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center mb-4">
                 <svg
-                  className="w-6 h-6 text-purple-600"
+                  className="w-6 h-6 text-brand-red"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -140,7 +140,7 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="text-2xl font-semibold text-gray-900 mb-3">
+              <h3 className="text-2xl font-semibold text-brand-dark mb-3">
                 For Tenants
               </h3>
               <ul className="space-y-3 text-gray-600">
@@ -167,16 +167,16 @@ export default function Home() {
 
         {/* How It Works */}
         <div className="py-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-900 mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center text-brand-dark mb-12">
             How It Works
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
+              <div className="w-16 h-16 bg-brand-red rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
                 1
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-xl font-semibold text-brand-dark mb-2">
                 Create Listing
               </h3>
               <p className="text-gray-600">
@@ -185,10 +185,10 @@ export default function Home() {
             </div>
 
             <div className="text-center">
-              <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
+              <div className="w-16 h-16 bg-brand-red rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
                 2
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-xl font-semibold text-brand-dark mb-2">
                 Generate QR Code
               </h3>
               <p className="text-gray-600">
@@ -197,10 +197,10 @@ export default function Home() {
             </div>
 
             <div className="text-center">
-              <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
+              <div className="w-16 h-16 bg-brand-red rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
                 3
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-xl font-semibold text-brand-dark mb-2">
                 Scan & View
               </h3>
               <p className="text-gray-600">
@@ -212,16 +212,16 @@ export default function Home() {
 
         {/* CTA Section */}
         <div className="py-16">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 sm:p-12 text-center text-white">
+          <div className="bg-gradient-to-r from-brand-red to-rose-600 rounded-2xl p-8 sm:p-12 text-center text-white">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
               Ready to Get Started?
             </h2>
-            <p className="text-xl mb-8 text-blue-100">
+            <p className="text-xl mb-8 text-red-100">
               Join Urban Living and modernize your property management today
             </p>
             <Link
               href="/dashboard"
-              className="inline-block bg-white hover:bg-gray-100 text-blue-600 font-semibold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg"
+              className="inline-block bg-white hover:bg-gray-100 text-brand-red font-semibold px-8 py-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg"
             >
               Access Dashboard
             </Link>
@@ -230,7 +230,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-8">
+      <footer className="bg-brand-dark text-white py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-gray-400">
             © 2026 Urban Living. Built with Next.js, TypeScript, and Firebase.

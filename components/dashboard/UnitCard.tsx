@@ -139,7 +139,7 @@ export default function UnitCard({ unit, isOwner, onEdit, onDelete }: UnitCardPr
                     <div className="flex gap-2 pt-4 border-t border-gray-200">
                         <button
                             onClick={() => onEdit(unit)}
-                            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
+                            className="flex-1 bg-brand-red hover:bg-brand-red-hover text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
                         >
                             Edit
                         </button>

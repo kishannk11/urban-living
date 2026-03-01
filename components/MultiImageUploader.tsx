@@ -240,7 +240,7 @@ export default function MultiImageUploader({
                 <div className="space-y-2">
                     <div className="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
                         <div
-                            className="bg-blue-600 h-2.5 rounded-full transition-all duration-300"
+                            className="bg-brand-red h-2.5 rounded-full transition-all duration-300"
                             style={{ width: `${progress}%` }}
                         />
                     </div>

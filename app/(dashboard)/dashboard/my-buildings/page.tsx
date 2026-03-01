@@ -82,7 +82,7 @@ export default function MyBuildingsPage() {
                 </div>
                 <Link
                     href="/dashboard/add-property"
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-200"
+                    className="bg-brand-red hover:bg-brand-red-hover text-white font-medium px-6 py-3 rounded-lg transition-colors duration-200"
                 >
                     + Add Building
                 </Link>
@@ -111,7 +111,7 @@ export default function MyBuildingsPage() {
                     </p>
                     <Link
                         href="/dashboard/add-property"
-                        className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-200"
+                        className="inline-block bg-brand-red hover:bg-brand-red-hover text-white font-medium px-6 py-3 rounded-lg transition-colors duration-200"
                     >
                         Add Your First Building
                     </Link>
@@ -160,7 +160,7 @@ export default function MyBuildingsPage() {
                                 <div className="flex flex-col gap-2 pt-4 border-t border-gray-200">
                                     <Link
                                         href={`/dashboard/buildings/${building.id}`}
-                                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 text-center text-sm"
+                                        className="w-full bg-brand-red hover:bg-brand-red-hover text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 text-center text-sm"
                                     >
                                         Manage Units
                                     </Link>

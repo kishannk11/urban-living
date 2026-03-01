@@ -185,7 +185,7 @@ export default function AddPropertyPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-8 py-3 rounded-lg transition-colors duration-200"
+                            className="bg-brand-red hover:bg-brand-red-hover text-white font-medium px-8 py-3 rounded-lg transition-colors duration-200"
                         >
                             {loading ? 'Searching...' : 'Search'}
                         </button>
@@ -229,7 +229,7 @@ export default function AddPropertyPage() {
                                             <button
                                                 onClick={() => handleJoinBuilding(building.id)}
                                                 disabled={loading}
-                                                className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors"
+                                                className="bg-brand-red hover:bg-brand-red-hover disabled:bg-red-400 text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors"
                                             >
                                                 Join this Building
                                             </button>
@@ -244,7 +244,7 @@ export default function AddPropertyPage() {
                                 </p>
                                 <button
                                     onClick={() => setStep('create')}
-                                    className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-lg transition-colors"
+                                    className="bg-brand-red hover:bg-brand-red-hover text-white font-medium px-6 py-2 rounded-lg transition-colors"
                                 >
                                     Create New Building
                                 </button>
@@ -408,7 +408,7 @@ export default function AddPropertyPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium px-8 py-3 rounded-lg transition-colors duration-200"
+                            className="bg-brand-red hover:bg-brand-red-hover disabled:bg-red-400 text-white font-medium px-8 py-3 rounded-lg transition-colors duration-200"
                         >
                             {loading ? 'Adding...' : 'Add Building'}
                         </button>
